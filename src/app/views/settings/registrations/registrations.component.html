@@ -1,0 +1,173 @@
+<div class="col-lg-12">
+    <div class="row">
+        <div class="col-md-0">
+            <label class="switch switch-outline-primary-alt">
+                <input type="checkbox" (change)="showAssigned($event)" [checked]="IsViewMode" class="switch-input">
+                <span class="switch-slider"></span>
+              </label>
+        </div>
+        <div class="col-md-11">
+            <strong>Show assigned </strong>
+        </div>
+
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <i class="fa fa-align-justify"></i> <strong>Registered trainee</strong>            
+           
+            <div class="card-header-actions">
+               
+                <button type="submit"  (click)="Submit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> {{IsViewMode ? 'Update':'Submit'}}</button>
+                <button type="reset" (click)="getAll()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+              </div>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>User name</th>
+                        <th>Date registered</th>
+                        <th>Email</th>
+                        <th>Category</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- *ngFor="let item of [].constructor(7); let i = index" -->
+                    <tr *ngFor="let user of userlist; let i = index"> 
+                        <td> {{ user.Name }}</td>
+                        <td> {{user.CreatedDate | date: 'dd/MM/yyyy'}} </td>
+                        <td>{{user.Email}}</td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="user.Category" >
+                                <option value="0">Choose your category</option>
+                                <option *ngFor="let cat of usercat" [ngValue]="cat.Category_id">{{cat.Category_name}}</option>
+                              </select>
+                            <!-- <ng-multiselect-dropdown name="usercat" [placeholder]="'Category'"
+                                [settings]="catdropdownSettings" [data]="usercat"
+                                formControlName="Category" [disabled]="disabled"
+                                (onSelect)="onItemSelect($event)">
+                            </ng-multiselect-dropdown> -->
+                        </td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="user.Role" >
+                                <option value="0">Choose your role</option>
+                                <option *ngFor="let role of roles" [ngValue]="role.roleid">{{role.role}}</option>
+                              </select>
+                            <!-- <ng-multiselect-dropdown name="roles" [placeholder]="'Role'"
+                                [settings]="dropdownSettings" [data]="roles"
+                                formControlName="Consultants" [disabled]="disabled"
+                                (onSelect)="onItemSelect($event)">
+                            </ng-multiselect-dropdown> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+        
+    </div>
+</div>
+
+<!-- <div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            
+            <tabset>
+                <tab heading="Candidates">
+                    
+                    <div class="row">
+                        <div style="padding-bottom: 0.5em;" class="col-sm-2">
+                            <button type="button" (click)="Submit()" class="btn btn-block btn-success">Save</button>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fa fa-align-justify"></i> List Of Regsisted Candidates
+                                </div>
+
+                                <div class="card-body">
+
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Date registered</th>
+                                                <th>Consultants</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of [].constructor(5); let i = index">
+                                                <td>Username {{i+1}}</td>
+                                                <td>2012/01/01</td>
+                                                <td>
+                                                    <ng-multiselect-dropdown name="Consultants" [placeholder]="'Consultants'"
+                                                        [settings]="dropdownSettings" [data]="Consultants"
+                                                        formControlName="Consultants" [disabled]="disabled"
+                                                        (onSelect)="onItemSelect($event)">
+                                                    </ng-multiselect-dropdown>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                       
+                    </div>
+                     
+                </tab>
+                <tab heading="Consultants">
+                    
+                    <div class="row">
+                        <div style="padding-bottom: 0.5em;" class="col-sm-2">
+                            <button type="button" (click)="Submit()" class="btn btn-block btn-success">Save</button>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fa fa-align-justify"></i> List Of Regsisted Consultants
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Date registered</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of [].constructor(5); let i = index">
+                                                <td>Username {{i+1}}</td>
+                                                <td>2012/01/01</td>
+                                                <td>
+                                                    <select class="form-control" id="ccyear">
+                                                        <option>Activate</option>
+                                                        <option>Deactivate</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                         
+                    </div>
+                  
+                </tab>
+                 
+            </tabset>
+        </div>
+      
+
+    </div>
+    
+</div> -->

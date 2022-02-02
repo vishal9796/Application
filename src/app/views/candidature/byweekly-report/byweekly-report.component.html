@@ -1,0 +1,81 @@
+<div class="row">
+      
+    <div class="col-md-3">
+    <select id="select1" [(ngModel)]="selectedConsultant" placeholder="Consultant" name="select1" class="form-control">
+      <option Value="0">Select Consultant</option>
+      <option *ngFor="let con of consultantList" [ngValue]="con.ConsultantName">
+        {{con.ConsultantName}}
+      </option>
+      
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select id="select1" [(ngModel)]="selectedStudent" placeholder="Consultant" name="select1" class="form-control">
+      <option Value="0">Select Student</option>
+      <option *ngFor="let con of studentlist" [ngValue]="con.StudentName">
+        {{con.StudentName}}
+      </option>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select id="select1" [(ngModel)]="SelectedDate" placeholder="Consultant" name="select1" class="form-control">
+      <option Value="0">Select Date</option>
+      <option *ngFor="let con of datelist" [ngValue]="con.Date">
+        {{con.Date | date:'dd/MM/yyyy'}}
+      </option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary" (click)="doSearch()" >Search</button> 
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-danger" (click)="doReset()" >Reset</button> 
+  </div>
+</div>
+<br> 
+<div class="row"> 
+<div  class="col-lg-12">
+  <div class="card">
+    <div class="card-header">      
+      <strong>ByWeekly Report</strong>
+      <div class="card-header-actions"> 
+        <button type="button" class="btn btn-sm btn-pill btn-success" (click)="fireEvent()">
+          Export
+        </button>       
+      </div>
+    </div>
+    <div class="card-body">
+      <table style="table-layout: fixed;" #table class="table table-bordered table-striped table-sm">
+        <thead>
+          <ng-container>
+          <th>Date</th>
+          <th>Consultant</th>
+          <th>Student</th>
+          <th>EASY_APPLICATION</th>
+          <th>COMPANY_SITE_APPLICATION</th>
+          <th>EMAIL_REACH_OUT</th>
+          <th>CALLS_REACH_OUT</th>
+          <th>EMAIL_FLOW</th>
+          <th>CALLS_RECEIVED</th>
+        </ng-container>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reportData;let i=index">
+           <td>{{r.Date}}</td>
+           <td>{{r.ConsultantName}}</td>
+           <td>{{r.StudentName}}</td>
+           <td>{{r.EASY_APPLICATION}}</td>
+           <td>{{r.COMPANY_SITE_APPLICATION}}</td>
+           <td>{{r.EMAIL_REACH_OUT}}</td>
+           <td>{{r.CALLS_REACH_OUT}}</td>
+           <td>{{r.EMAIL_FLOW}}</td>
+           <td>{{r.CALLS_RECEIVED}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+

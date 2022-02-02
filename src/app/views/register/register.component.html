@@ -1,0 +1,115 @@
+<alert></alert>  
+<ngx-ui-loader></ngx-ui-loader>
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <form  [formGroup]="registerForm" (ngSubmit)="registerMe()" novalidate>
+                <h1>Register</h1>
+                <p class="text-muted">Create your account</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                  </div>
+                  <input type="text" formControlName="Name" [ngClass]="{ 'is-invalid': submitted && f.Name.errors }"  class="form-control" placeholder="Name" autocomplete="Name" >
+                  <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                    <div *ngIf="f.Name.errors.required">Name is required</div>
+                </div>
+                
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">@</span>
+                  </div>
+                  <input type="text" formControlName="Email" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" class="form-control" placeholder="Email" autocomplete="email" >
+                  <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                    <div *ngIf="f.Email.errors.required">Email is required</div>
+                    <div *ngIf="f.Email.errors.email">Email must be a valid email address</div>
+                </div>
+                
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="cil-mobile"></i></span>
+                  </div>
+                  <input type="text" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Contact.errors }" formControlName="Contact" placeholder="Contact" autocomplete="Contact" >
+                  <div *ngIf="submitted && f.Contact.errors" class="invalid-feedback">
+                    <div *ngIf="f.Contact.errors.required">Contact is required</div>
+                </div>
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="cil-description"></i></span>
+                  </div>
+                  <input type="text" class="form-control" formControlName="Address" placeholder="Address" autocomplete="Address" >
+                </div>
+                
+                <!-- <div  class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="cil-briefcase"></i></span>
+                  </div>              
+                  <div class="col-md-10 col-form-label">
+                  <ng-multiselect-dropdown name="technology"  [placeholder]="'Technology'" [settings]="dropdownSettings" [data]="technologies"
+                    formControlName="technology" [disabled]="disabled" 
+                    (onSelect)="onItemSelect($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+
+                  </div> -->
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" class="form-control" formControlName="RawPassword" [ngClass]="{ 'is-invalid': submitted && f.RawPassword.errors }" placeholder="Password" autocomplete="new-password"
+                    >
+                    <div *ngIf="submitted && f.RawPassword.errors" class="invalid-feedback">
+                      <div *ngIf="f.RawPassword.errors.minlength">minimum {{ f.RawPassword.errors.minlength.requiredLength}} characters required</div>
+                      <div *ngIf="f.RawPassword.errors.required">Password is required</div>
+                  </div>
+                </div>
+                <div>         
+                  
+               </div>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-lock"></i></span>
+                  </div>
+                  <input type="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" formControlName="Password" placeholder="Repeat password" autocomplete="new-password">  
+                  <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                    <div class="form-text text-danger" *ngIf="submitted && f.Password.errors.required">Repeat password is required</div>
+                    <div class="form-text text-danger" *ngIf="submitted && f.Password.errors.mustMatch">Passwords must match</div>               
+                 </div>              
+                </div>
+                <button type="submit" class="btn btn-block btn-success">Create Account</button>
+                <button type="button" (click)="goToLogin()" class="btn btn-block btn-primary">Back to login</button>
+                <div style="text-align: center;" [style.color]="errorcolor ">
+                <strong>{{errormsg}}</strong> 
+                </div>
+              </form>
+            </div>
+            <div class="card-footer p-4">
+              <div class="row">
+                <div class="col-12 text-center">
+                  <button disabled type="button" class="btn btn-brand btn-sm btn-google-plus mr-1" style="margin-bottom: 4px">
+                    <i class="fa fa-google"></i>
+                    <span>Google</span>
+                  </button>
+                  <button disabled type="button" class="btn btn-brand btn-sm btn-facebook mr-1" style="margin-bottom: 4px">
+                    <i class="fa fa-facebook"></i>
+                    <span>Facebook</span>
+                  </button>
+                  
+                   
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

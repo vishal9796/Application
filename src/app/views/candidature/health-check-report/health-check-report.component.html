@@ -1,0 +1,110 @@
+<div class="row">
+      
+    <div class="col-md-3">
+    <select id="select1" [(ngModel)]="selectedConsultant" placeholder="Consultant" name="select1" class="form-control">
+      <option Value="0">Select Consultant</option>
+      <option *ngFor="let con of consultantList" [ngValue]="con.ConsultantName">
+        {{con.ConsultantName}}
+      </option>
+      
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select id="select1" [(ngModel)]="selectedStudent" placeholder="Consultant" name="select1" class="form-control">
+      <option Value="0">Select Student</option>
+      <option *ngFor="let con of studentlist" [ngValue]="con.StudentName">
+        {{con.StudentName}}
+      </option>
+    </select>
+  </div>
+  <div class="col-md-3">
+    <select id="select1" [(ngModel)]="SelectedDate" placeholder="Consultant" name="select1" class="form-control">
+      <option Value="0">Select Date</option>
+      <option *ngFor="let con of datelist" [ngValue]="con.Date">
+        {{con.Date | date:'dd/MM/yyyy'}}
+      </option>
+    </select>
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-primary" (click)="doSearch()" >Search</button> 
+  </div>
+  <div class="col-md-1">
+    <button class="btn btn-danger" (click)="doReset()" >Reset</button> 
+  </div>
+</div>
+<br> 
+<div class="row"> 
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-header">      
+      <strong>Health Check Report</strong>
+      <div class="card-header-actions"> 
+        <button type="button" class="btn btn-sm btn-pill btn-success" (click)="fireEvent()">
+          Export
+        </button>       
+      </div>
+    </div>
+    <div class="card-body">
+      <table #table class="table table-bordered table-striped table-sm">
+        <thead>
+          <ng-container *ngFor="let message of healthcheckdata;let i=index">      
+            <tr *ngIf="i == 0">
+              <th>Date</th>
+              <th>Consultant Name</th>
+              <th>Student Name</th>
+              
+             
+              <ng-container *ngFor="let item of message | keyvalue">
+              <th *ngIf="item.key !='ConsultantName' && item.key !='StudentName' && item.key !='LatestResume' && item.key !='Date'">{{item.key}}
+              </th>
+            </ng-container>
+            <th>Latest Resume</th>
+            </tr>
+          </ng-container>
+        </thead>
+        <tbody>
+          <tr *ngFor="let message of healthcheckdata;let i=index">
+            <td>{{message.Date | date:'dd/MM/yyyy' }}</td> 
+            <td>{{ i>0 ? (healthcheckdata[i-1].ConsultantName == message.ConsultantName && healthcheckdata[i-1].Date == message.Date) ? '' : message.ConsultantName : message.ConsultantName}}</td>
+            <!-- <td>{{message.ConsultantName}}</td> -->
+            <td>{{message.StudentName }}</td>
+                      
+            <ng-container *ngFor="let item of message | keyvalue">
+            <ng-container *ngIf="item.key !='ConsultantName' && item.key !='StudentName' && item.key !='LatestResume' && item.key !='Date'">
+              <td style="color:white;font-weight: bold;" [ngStyle]="{ 'background': item.value == '1' ? '#4cbf5b' : item.value == '0' ? '#f16363fa' : ''}">{{item.value == "1" ? 'P' : item.value == "0" ? 'A' : item.value }}
+              </td>
+            </ng-container>
+
+            
+          </ng-container>
+          <td>{{message.LatestResume | date:'dd/MM/yyyy'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <table>
+    <thead>
+        <ng-container *ngFor="let message of healthcheckdata;let i=index">        
+         <tr *ngIf="i == 0">           
+           <ng-container *ngFor="let item of message | keyvalue;let i = index;">
+            <th *ngIf="i==0">{{item.key}}</th>
+            <th *ngIf="i==0">{{item.key}}</th>
+            <th *ngIf="i==0">{{item.key}}</th>
+            <th *ngIf="i==0">{{item.key}}</th>
+            
+           </ng-container>
+         </tr>
+        </ng-container>
+    </thead>
+    <tbody>
+         <tr *ngFor="let message of healthcheckdata">           
+           <td *ngFor="let item of message | keyvalue">{{item.value}}</td>
+         </tr>
+    </tbody>
+</table> -->

@@ -1,0 +1,468 @@
+<style>
+  .example-accordion {
+    display: block;
+    max-width: 100%;
+  }
+
+  .example-accordion-item {
+    display: block;
+    border: solid 1px #ccc;
+  }
+
+  .example-accordion-item+.example-accordion-item {
+    border-top: none;
+  }
+
+  .example-accordion-item-header {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+  }
+
+  .example-accordion-item-description {
+
+    font-size: 0.85em;
+    color: #999;
+  }
+
+  .example-accordion-item-header,
+  .example-accordion-item-body {
+    padding: 5px;
+  }
+
+  .example-accordion-item-body {
+    background-color: #eaeef1;
+  }
+
+  .example-accordion-item-header:hover {
+    cursor: pointer;
+    /* background-color: #eee; */
+  }
+
+  .example-accordion-item:first-child {
+    border-top-left-radius: 1px;
+    border-top-right-radius: 1px;
+  }
+
+  .example-accordion-item:last-child {
+    border-bottom-left-radius: 1px;
+    border-bottom-right-radius: 1px;
+  }
+
+  /* .cdk-accordion-item.example-accordion-item.card-header {
+  background-color: #40523d;
+  color: white;
+} */
+</style>
+<!-- 
+
+<div style="cursor: pointer;" class="row">
+  <div class="col-sm-6 col-md-4">
+    <div class="card text-white bg-warning text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Training <span class="fa fa-arrow-circle-o-right fa-1x"></span></h3>           
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-4">
+    <div class="card text-white bg-danger text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Marketing <span class="fa fa-arrow-circle-o-right fa-1x"></span></h3>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-4">
+    <div class="card text-white bg-success text-center">
+      <div class="card-body">
+        <blockquote class="card-bodyquote">
+          <h3>Job/Support <span class="fa fa-arrow-circle-o-right fa-1x"></span></h3>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="row">
+  <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+    <button type="button" style="cursor: not-allowed" title="Module not active" (click)="toggleButton(1)" [disabled]="!isTraining"
+      class="btn btn-pill btn-block btn-warning">Training <span
+        class="fa fa-arrow-circle-o-right fa-1x"></span></button>
+  </div>
+  <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+    <button type="button" (click)="toggleButton(2)" [disabled]="!isMarketing"
+      class="btn btn-pill btn-block btn-danger">Marketing <span
+        class="fa fa-arrow-circle-o-right fa-1x"></span></button>
+  </div>
+  <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+    <button type="button" style="cursor: not-allowed" title="Module not active" (click)="toggleButton(3)" [disabled]="!isSupport"
+      class="btn btn-pill btn-block btn-success">Job/Support <span
+        class="fa fa-arrow-circle-o-right fa-1x"></span></button>
+  </div>
+</div>
+
+<br>
+
+<div *ngIf="showGrid" class="col-sm-12">
+  <div class="card">
+    <div class="card-header">
+      <strong>Trainee List</strong>
+      <div class="card-header-actions"><span class="badge badge-danger">Marketing</span>
+        <button type="button" class="btn btn-sm btn-pill btn-primary" data-toggle="modal" (click)="largeModal.show()">
+          Career Site
+        </button>
+        <button type="button" class="btn btn-sm btn-pill btn-primary" data-toggle="modal"
+          (click)="largeModalSub.show()">
+          Clients
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+
+
+      <cdk-accordion class="example-accordion">
+        <cdk-accordion-item *ngFor="let item of items; let index = index;" #accordionItem="cdkAccordionItem"
+          class="example-accordion-item" role="button" tabindex="0" [attr.id]="'accordion-header-' + index"
+          [attr.aria-expanded]="accordionItem.expanded" [attr.aria-controls]="'accordion-body-' + index">
+          <div class="example-accordion-item-header"
+            (click)="accordionItem.toggle();getStudentData(item.StudenID,accordionItem.expanded);">
+            <div> <span class="fa fa-user-circle"></span> &nbsp;&nbsp; <strong> {{ item.StudentName }}</strong> </div>
+            <span class="example-accordion-item-description">
+              Click to {{ accordionItem.expanded ? 'close' : 'open' }}
+            </span>
+          </div>
+          <div class="example-accordion-item-body" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+            [attr.id]="'accordion-body-' + index" [attr.aria-labelledby]="'accordion-header-' + index">
+
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  Health Check-Up
+                  <div class="card-header-actions">
+                    <span *ngIf="IsLatestHealthData" class="blink_me">Today's Data</span>
+                    <button type="submit" (click)="Submit()" class="btn btn-sm btn-primary"><i
+                        class="fa fa-dot-circle-o"></i> Submit</button>
+                  </div>
+                </div>
+                <div class="card-body">
+
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th width="15%">Date</th>
+                        <th *ngFor="let s of sites">{{s.Name}}</th>
+                        <th width="15%">Latest Resume</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input class="form-control" [ngModel]="Hc_Date | date:'yyyy-MM-dd'"
+                            (ngModelChange)="Hc_Date = $event" id="date-input" type="date" name="date-input"
+                            placeholder="date"></td>
+                        <td *ngFor="let s of sites">
+                          <select id="select1" [(ngModel)]="s.Ispresent" name="select1" class="form-control">
+                            <option style="background-color: red;color: white;" [ngValue]="false">A</option>
+                            <option style="background-color: green;color: white;" [ngValue]="true">P</option>
+                          </select>
+                        </td>
+                        <td><input class="form-control" [ngModel]="LatestResume | date:'yyyy-MM-dd'"
+                            (ngModelChange)="LatestResume = $event" id="date-input" type="date" name="date-input"
+                            placeholder="date"></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  Submission
+                  <div class="card-header-actions">
+                    <span *ngIf="IsLatestSubData" class="blink_me">Today's Data</span>
+                    <!-- <button type="submit" (click)="Submit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>              -->
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th width="15%">Date</th>
+                        <th *ngFor="let c of client">{{c.Name}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input class="form-control" [ngModel]="Sc_Date | date:'yyyy-MM-dd'"
+                            (ngModelChange)="Sc_Date = $event" id="date-input" type="date" name="date-input"
+                            placeholder="date"></td>
+                        <td *ngFor="let c of client"><input class="form-control" [(ngModel)]="c.ClientDetails"
+                            id="date-input" type="text" name="date-input" placeholder="Enter here"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="isSupervisor" class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  Weekly
+                  <div class="card-header-actions">
+                    <span *ngIf="IsLatestWeeklyDate" class="blink_me">Today's Data</span>
+                    <!-- <button type="submit" (click)="Submit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>              -->
+                  </div>
+                </div>
+                <div class="card-body">
+                  <table *ngIf="byweekly!=undefined " class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th width="15%">Date</th>
+                        <th>Easy Application</th>
+                        <th>Company Site Application</th>
+                        <th>Email Reach Out</th>
+                        <th>Calls Reach Out</th>
+                        <th>Email Flow</th>
+                        <th>Calls Received</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><input class="form-control"  [ngModel]="byweekly.Date | date:'yyyy-MM-dd'"
+                            (ngModelChange)="ByWeeklyDate = $event" id="date-input" type="date" name="date-input"
+                            placeholder="date"></td>                      
+                        <td><input class="form-control" [(ngModel)]="byweekly.EASY_APPLICATION" id="date-input" type="text"
+                            name="date-input" placeholder="Enter here"></td>
+                        <td><input class="form-control" [(ngModel)]="byweekly.COMPANY_SITE_APPLICATION" id="date-input" type="text"
+                            name="date-input" placeholder="Enter here"></td>
+                        <td><input class="form-control" [(ngModel)]="byweekly.EMAIL_REACH_OUT" id="date-input" type="text"
+                            name="date-input" placeholder="Enter here"></td>
+                        <td><input class="form-control" [(ngModel)]="byweekly.CALLS_REACH_OUT" id="date-input" type="text"
+                            name="date-input" placeholder="Enter here"></td>
+                        <td><input class="form-control" [(ngModel)]="byweekly.EMAIL_FLOW" id="date-input" type="text"
+                            name="date-input" placeholder="Enter here"></td>
+                            <td><input class="form-control" [(ngModel)]="byweekly.CALLS_RECEIVED" id="date-input" type="text"
+                              name="date-input" placeholder="Enter here"></td>
+
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </cdk-accordion-item>
+      </cdk-accordion>
+    </div>
+  </div>
+</div>
+
+<ngx-ui-loader [loaderId]="'loader-02'"></ngx-ui-loader>
+
+
+<div bsModal #largeModal="bs-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Career Site Master</h4>
+        <button type="button" class="close" (click)="largeModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <input type="text" class="form-control" [(ngModel)]="sitemaster.Name" placeholder="Career site name"
+              autocomplete="">
+          </div>
+          <div class="col-md-2">
+            <button type="button" (click)="SaveCareerSite()" class="btn btn-primary">Save</button>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered table-striped table-sm">
+              <thead>
+                <tr>
+                  <th width="5%">#</th>
+                  <th width="10%">Sr.No.</th>
+                  <th>Name</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let site of sitemasterlist; let i = index;">
+                  <td><i title="Click to delete" (click)="deleteCareerSite(site.id)" class="fa fa-remove fa-lg"></i>
+                  </td>
+                  <td>{{i+1}}</td>
+                  <td>{{site.Name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModal.hide()">Close</button>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+<div bsModal #largeModalSub="bs-modal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Client Count Master</h4>
+        <button type="button" class="close" (click)="largeModalSub.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-4">
+            <input type="text" class="form-control" [(ngModel)]="clientmaster.Name" placeholder="client count(eg.C1)"
+              autocomplete="">
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-primary" (click)="SaveClientCount()">Save</button>
+          </div>
+          <div class="col-md-6"></div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered table-striped table-sm">
+              <thead>
+                <tr>
+                  <th width="5%">#</th>
+                  <th width="10%">Sr.No.</th>
+                  <th>Name</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let client of clinetmasterlist;let i = index;">
+                  <td><i title="Click to delete" (click)="deleteClientCount(client.id)" class="fa fa-remove fa-lg"></i>
+                  </td>
+                  <td>{{i+1}}</td>
+                  <td>{{client.Name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="largeModalSub.hide()">Close</button>
+
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+<!-- Old Approch-->
+
+<!-- <div *ngIf="!showStudent" class="col-lg-12">
+    <div class="card">
+        <div class="card-header">
+            <i class="icon-note"></i> <strong>Students</strong> 
+            <div class="card-header-actions">
+                 
+              </div>
+        </div>
+
+        <div class="card-body"  >
+            <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th width="7%">Action</th>
+                    <th>Name</th>
+                    <th>Date registered</th>                    
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody title="Click to view record" style="cursor: pointer !important;"  >
+                  <tr>
+                    <td> <span class="fa fa-edit" ></span> </td>
+                    <td>Vishnu Serghei</td>
+                    <td>2012/01/01</td>                    
+                    <td>
+                      <span class="badge badge-success">Placed</span>
+                    </td>
+                  </tr>
+                  <tr (click)="gotoPage()">
+                    <td> <span class="fa fa-edit" ></span> </td>
+                    <td>Zbyněk Phoibos</td>
+                    <td>2012/02/01</td>
+                     
+                    <td>
+                      <span class="badge badge-danger">Marketing</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td> <span class="fa fa-edit" ></span> </td>
+                    <td>Einar Randall</td>
+                    <td>2012/02/01</td>
+                     
+                    <td>
+                      <span class="badge badge-secondary">Inactive</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td> <span class="fa fa-edit" ></span> </td>
+                    <td>Félix Troels</td>
+                    <td>2012/03/01</td>
+                    
+                    <td>
+                      <span class="badge badge-warning">Interview</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td> <span class="fa fa-edit" ></span> </td>
+                    <td>Aulus Agmundr</td>
+                    <td>2012/01/21</td>
+                     
+                    <td>
+                      <span class="badge badge-success">Placed</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+             <nav>
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+                  <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">4</a></li>
+                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+              </nav>             
+        </div>
+        
+    </div>
+</div> -->
+
+<!-- <app-candidate-info (backPressed)="backPressed()" *ngIf="showStudent" ></app-candidate-info>  -->
+
+<!-- end of Old Approch-->
