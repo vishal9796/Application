@@ -90,9 +90,7 @@ submitData(){
     this.alert.error("Please select consultant");
     return;
   }
-  if (objCon.length == 0) {
-    //this.alert.error("Please select student");
-    //return;
+  if (objCon.length == 0) {    
     objCon.push(<StudentAgainstConsult>{ Stu_id: 0, Consultant_id: _value, CreatedDate: '' })
   }
 
