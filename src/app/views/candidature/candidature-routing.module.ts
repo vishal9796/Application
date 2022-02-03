@@ -54,7 +54,7 @@ const routes: Routes =
           path: 'byweeklyreport',
           component: ByweeklyReportComponent,
           data: {
-            title: 'ByWeekly Report'
+            title: 'BiWeekly Report'
           }
 
         },

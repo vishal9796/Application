@@ -70,7 +70,7 @@ export const navItems: INavData[] = [
         
       },
       {
-        name: 'Byweekly Report',
+        name: 'Biweekly Report',
         url: '/candidature/byweeklyreport',
         icon: 'icon-book-open',
         
