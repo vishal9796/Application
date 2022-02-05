@@ -166,9 +166,9 @@ export class RegistrationsComponent implements OnInit {
    this.originaluserlist = this.userlist;
    this.userlist =
    this.userlist.filter(
-            a=> a.Name.includes(this.SearchText.trim()) 
+            a=> a.Name.toLocaleLowerCase().includes(this.SearchText.trim().toLocaleLowerCase()) 
        // || a.CreatedDate.includes(this.SearchText)  
-        || a.Email.includes(this.SearchText.trim())
+        || a.Email.toLocaleLowerCase().includes(this.SearchText.trim().toLocaleLowerCase())
 
         ) 
     
