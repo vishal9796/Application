@@ -28,9 +28,10 @@ export class RegistrationsComponent implements OnInit {
   catdropdownSettings:IDropdownSettings;
 
   userlist: registeruser[] = [];
+  originaluserlist: registeruser[] = [];
   usercat:category[] = [];
   IsViewMode:boolean=false;
-  
+  SearchText:string;
   constructor(private alertservice :AlertService,
     private _service : SettingsService
     ) { }
@@ -139,7 +140,7 @@ export class RegistrationsComponent implements OnInit {
     ); 
   }
   showAssigned(e){
-    
+    this.SearchText="";
     if(e.target.checked){
       this._service.getAssignedRegistrations()
     .subscribe(
@@ -157,6 +158,24 @@ export class RegistrationsComponent implements OnInit {
       this.getAll();
      
     }
+  }
+
+  Search(){
+    //console.log(this.SearchText);
+    console.log(this.userlist)
+   this.originaluserlist = this.userlist;
+   this.userlist =
+   this.userlist.filter(
+            a=> a.Name.includes(this.SearchText.trim()) 
+       // || a.CreatedDate.includes(this.SearchText)  
+        || a.Email.includes(this.SearchText.trim())
+
+        ) 
+    
+  }
+  ClearSearch(){
+    this.SearchText="";
+    this.userlist = this.originaluserlist;
   }
 
 }

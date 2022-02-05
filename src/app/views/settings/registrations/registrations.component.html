@@ -11,6 +11,14 @@
         </div>
 
     </div>
+    <div class="row">
+          <div class="input-group mb-3 col-md-5" >
+            <input class="form-control" type="text" [(ngModel)]="SearchText" placeholder="Enter name or email to search" aria-label="Enter name or email to search" aria-describedby="basic-addon2">
+            <button  (click)="ClearSearch()" class="input-group-text cil-x-circle form-control-feedback" id="basic-addon2"></button>
+            <button  (click)="Search()" class="input-group-text fa fa-search form-control-feedback" id="basic-addon2"></button>
+          </div>
+    </div>
+   
     
     <div class="card">
         <div class="card-header">

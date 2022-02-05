@@ -131,8 +131,12 @@ debugger;
                 this.IsLatestHealthData = true;
               }
               else {
+                this.Hc_Date = res[0].Hc_Date;
+                
                 this.IsLatestHealthData = false;
               }
+              this.LatestResume = res[0].LatestResume;
+
             }
           }
         },
@@ -149,6 +153,7 @@ debugger;
                 this.IsLatestSubData = true;
               }
               else {
+                this.Sc_Date = res[0].Sc_Date;
                 this.IsLatestSubData = false;
               }
               this.ngxLoader.stop();
@@ -170,6 +175,7 @@ debugger;
                 this.IsLatestWeeklyDate = true;
               }
               else {
+                this.ByWeeklyDate = res[0].Date;
                 this.IsLatestWeeklyDate = false;
               }
               this.ngxLoader.stop();
