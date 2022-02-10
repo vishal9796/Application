@@ -26,6 +26,7 @@ export class SettingsService {
     //api/EmployeeDetails/UpdateRecord
     return this.http.post<any>(this.APIPath + 'api/EmployeeDetails/InsertStudentAgainstConcult',data);
   }
+  //api/Report/InsertSupervisorAgainstConcult
   updateCategory(data):Observable<any>{
     //api/EmployeeDetails/UpdateRecord
     return this.http.put<any>(this.APIPath + 'api/EmployeeDetails/UpdateRecord',data);
@@ -33,7 +34,15 @@ export class SettingsService {
   getAssignedRegistrations():Observable<any>{
     return this.http.get<any>(this.APIPath+'api/EmployeeDetails/GerAssignedStudent');
   }
-  // AssignStudents(data):Observable<any>{
-
-  // }
+  getSupervisor(): Observable<any> {
+    return this.http.get<any>(this.APIPath + 'api/Report/SupervisorList');
+  }
+  getConsulants(): Observable<any> {
+    return this.http.get<any>(this.APIPath + 'api/Report/ConsultanatForSuervisorList');
+  }
+  assignConsultantToSupervisor(data):Observable<any>{
+    //api/EmployeeDetails/UpdateRecord
+    return this.http.post<any>(this.APIPath + 'api/Report/InsertSupervisorAgainstConcult',data);
+  }
+  
 }

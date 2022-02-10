@@ -32,6 +32,8 @@ export class RegistrationsComponent implements OnInit {
   usercat:category[] = [];
   IsViewMode:boolean=false;
   SearchText:string;
+  showpassword:boolean = true;
+
   constructor(private alertservice :AlertService,
     private _service : SettingsService
     ) { }

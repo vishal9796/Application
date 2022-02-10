@@ -55,4 +55,13 @@ export class CandidatureService {
   getByWeeklyReport(ConsultantID){
     return this.http.get<any>(this.APIPath + 'api/Report/ByweeklyReport?ConsultantID='+ConsultantID);
   }
+  getHealthDataByDate(FilterDate,studid): Observable<any> {
+    return this.http.get<any>(this.APIPath + 'api/Report/HealthCheckeportByDate?FilterDate='+FilterDate+'&StuId='+studid);
+  }
+  getSubmissionDataByDate(FilterDate,studid): Observable<any> {
+    return this.http.get<any>(this.APIPath + 'api/Report/SubmissionReportByDate?FilterDate='+FilterDate+'&StuId='+studid);
+  }
+  getWeeklyDataByDate(FilterDate,studid): Observable<any> {
+    return this.http.get<any>(this.APIPath + 'api/Report/GetByWeeklyReportbyDate?FilterDate='+FilterDate+'&StuId='+studid);
+  }
 }

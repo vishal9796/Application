@@ -4,7 +4,7 @@
             <label class="switch switch-outline-primary-alt">
                 <input type="checkbox" (change)="showAssigned($event)" [checked]="IsViewMode" class="switch-input">
                 <span class="switch-slider"></span>
-              </label>
+            </label>
         </div>
         <div class="col-md-11">
             <strong>Show assigned </strong>
@@ -12,23 +12,28 @@
 
     </div>
     <div class="row">
-          <div class="input-group mb-3 col-md-5" >
-            <input class="form-control" type="text" [(ngModel)]="SearchText" placeholder="Enter name or email to search" aria-label="Enter name or email to search" aria-describedby="basic-addon2">
-            <button  (click)="ClearSearch()" class="input-group-text cil-x-circle form-control-feedback" id="basic-addon2"></button>
-            <button  (click)="Search()" class="input-group-text fa fa-search form-control-feedback" id="basic-addon2"></button>
-          </div>
+        <div class="input-group mb-3 col-md-5">
+            <input class="form-control" type="text" [(ngModel)]="SearchText" placeholder="Enter name or email to search"
+                aria-label="Enter name or email to search" aria-describedby="basic-addon2">
+            <button (click)="ClearSearch()" class="input-group-text cil-x-circle form-control-feedback"
+                id="basic-addon2"></button>
+            <button (click)="Search()" class="input-group-text fa fa-search form-control-feedback"
+                id="basic-addon2"></button>
+        </div>
     </div>
-   
-    
+
+
     <div class="card">
         <div class="card-header">
-            <i class="fa fa-align-justify"></i> <strong>Registered trainee</strong>            
-           
+            <i class="fa fa-align-justify"></i> <strong>Registered trainee</strong>
+
             <div class="card-header-actions">
-               
-                <button type="submit"  (click)="Submit()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> {{IsViewMode ? 'Update':'Submit'}}</button>
-                <button type="reset" (click)="getAll()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-              </div>
+
+                <button type="submit" (click)="Submit()" class="btn btn-sm btn-primary"><i
+                        class="fa fa-dot-circle-o"></i> {{IsViewMode ? 'Update':'Submit'}}</button>
+                <button type="reset" (click)="getAll()" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i>
+                    Reset</button>
+            </div>
         </div>
 
         <div class="card-body">
@@ -39,21 +44,36 @@
                         <th>User name</th>
                         <th>Date registered</th>
                         <th>Email</th>
-                        <th>Category</th>
-                        <th>Role</th>
+                        <th width="17%">Password</th>
+                        <th width="20%">Category</th>
+                        <th width="20%">Role</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- *ngFor="let item of [].constructor(7); let i = index" -->
-                    <tr *ngFor="let user of userlist; let i = index"> 
+                    <tr *ngFor="let user of userlist; let i = index">
                         <td> {{ user.Name }}</td>
                         <td> {{user.CreatedDate | date: 'dd/MM/yyyy'}} </td>
                         <td>{{user.Email}}</td>
                         <td>
-                            <select class="form-control" [(ngModel)]="user.Category" >
+                            <div class="input-group mb-3">
+                                <input class="form-control" #x type="password" [(ngModel)]="user.Password"
+                                    aria-describedby="basic-addon2">
+                                <span (click)="x.type=x.type=='password'?'text':'password'"
+                                    class="input-group-text fa fa-eye" id="basic-addon2" *ngIf="x.type=='text'"></span>
+                                <span (click)="x.type=x.type=='password'?'text':'password'"
+                                    class="input-group-text fa fa-eye-slash" id="basic-addon2"
+                                    *ngIf="x.type=='password'"></span>
+                            </div>
+
+
+                        </td>
+                        <td>
+                            <select class="form-control" [(ngModel)]="user.Category">
                                 <option value="0">Choose your category</option>
-                                <option *ngFor="let cat of usercat" [ngValue]="cat.Category_id">{{cat.Category_name}}</option>
-                              </select>
+                                <option *ngFor="let cat of usercat" [ngValue]="cat.Category_id">{{cat.Category_name}}
+                                </option>
+                            </select>
                             <!-- <ng-multiselect-dropdown name="usercat" [placeholder]="'Category'"
                                 [settings]="catdropdownSettings" [data]="usercat"
                                 formControlName="Category" [disabled]="disabled"
@@ -61,10 +81,10 @@
                             </ng-multiselect-dropdown> -->
                         </td>
                         <td>
-                            <select class="form-control" [(ngModel)]="user.Role" >
+                            <select class="form-control" [(ngModel)]="user.Role">
                                 <option value="0">Choose your role</option>
                                 <option *ngFor="let role of roles" [ngValue]="role.roleid">{{role.role}}</option>
-                              </select>
+                            </select>
                             <!-- <ng-multiselect-dropdown name="roles" [placeholder]="'Role'"
                                 [settings]="dropdownSettings" [data]="roles"
                                 formControlName="Consultants" [disabled]="disabled"
@@ -74,9 +94,9 @@
                     </tr>
                 </tbody>
             </table>
-            
+
         </div>
-        
+
     </div>
 </div>
 

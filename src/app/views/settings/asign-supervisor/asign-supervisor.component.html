@@ -1,0 +1,49 @@
+<div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <strong>Assign Supervisor</strong>   
+        <div class="card-header-actions">
+            <button type="submit" (click)="submitData()" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Submit</button>
+            <button type="reset"  (click)="reset()"  class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
+          </div>      
+      </div>
+      <div class="card-body">
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label" for="select1"> <strong>Select Supervisor :</strong> </label>
+            <div class="col-md-9">
+              <select id="select1" [(ngModel)]="selectedsup" (ngModelChange)="refreshList()" name="select1" class="form-control">
+                <option value="0">click to select supervisor</option>
+                <option *ngFor="let con of supervisorlist" [ngValue]="con.Id">{{con.Name}}</option>
+              </select>
+            </div>
+          </div>  
+
+          <div class="form-group row">
+            <div class="col-md-2"> <strong>Select Marketing Officer :</strong></div>
+            
+            <div class="col-md-9">
+                
+            <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th width="10%">Action</th>
+                    <th>Name</th>
+                    <th>Supervisor</th>
+                  </tr>
+                
+                </thead>
+                <tbody>
+                  <tr *ngFor="let stud of consultantlist;let i=index;">                   
+                    <td style="padding-left: 5%;">                        
+                        <input class="form-check-input" type="checkbox" [disabled]="true ? (stud.SupervisorID != null && stud.SupervisorID > 0 && stud.SupervisorID != selectedsup) : false"  [(ngModel)]="stud.selected" value="0" id="checkbox1">                        
+                    </td>
+                    <td>{{stud.ConsultantName}} </td>     
+                    <td>{{stud.SupervisorName}}</td>     
+                  </tr>                  
+                </tbody>
+              </table>
+            </div>
+          </div>      
+      </div>
+    </div>
+  </div> 

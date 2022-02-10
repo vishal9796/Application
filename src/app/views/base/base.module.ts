@@ -79,6 +79,6 @@ import { BaseRoutingModule } from './base-routing.module';
 })
 export class BaseModule { 
   constructor(){
-    console.log('BaseModule');
+    //console.log('BaseModule');
   }
 }

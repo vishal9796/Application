@@ -30,16 +30,16 @@ export class SubmissionReportComponent implements OnInit {
       this.consultantList = this.submissiondata.filter(
         (thing, i, arr) => arr.findIndex(t => t.Name === thing.Name) === i
       );    
-      console.log(this.consultantList)   
+     // console.log(this.consultantList)   
       this.studentlist = this.submissiondata.filter(
         (thing, i, arr) => arr.findIndex(t => t.StudentName === thing.StudentName) === i
       );    
-      console.log(this.studentlist)  
+    //  console.log(this.studentlist)  
       this.datelist = this.submissiondata.filter(
         (thing, i, arr) => arr.findIndex(t => t.Sc_Date === thing.Sc_Date) === i
       );  
         
-      console.log(this.datelist)  
+     // console.log(this.datelist)  
 
     });
   }
@@ -56,7 +56,7 @@ export class SubmissionReportComponent implements OnInit {
           // this.alert.success("Successfuly Saved");
           this.submissiondata = res;
           resolve(1);
-          console.log(this.submissiondata);
+          //console.log(this.submissiondata);
         }
       },
       error => { console.log(error) }

@@ -30,6 +30,12 @@ export const navItems: INavData[] = [
         icon: 'fa fa-object-group',
         
       }, 
+      {
+        name: 'Assign Supervisor',
+        url: '/Settings/asignsup',
+        icon: 'fa fa-object-group',
+        
+      }, 
        
     ]
   },  

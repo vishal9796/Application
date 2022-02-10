@@ -30,16 +30,16 @@ export class ByweeklyReportComponent implements OnInit {
       this.consultantList = this.reportData.filter(
         (thing, i, arr) => arr.findIndex(t => t.ConsultantName === thing.ConsultantName) === i
       );    
-      console.log(this.consultantList)   
+     // console.log(this.consultantList)   
       this.studentlist = this.reportData.filter(
         (thing, i, arr) => arr.findIndex(t => t.StudentName === thing.StudentName) === i
       );    
-      console.log(this.studentlist)  
+     // console.log(this.studentlist)  
       this.datelist = this.reportData.filter(
         (thing, i, arr) => arr.findIndex(t => t.Date === thing.Date) === i
       );  
         
-      console.log(this.datelist)  
+      //console.log(this.datelist)  
 
     });
   }

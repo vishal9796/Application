@@ -12,6 +12,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AssignmentComponent } from './assignment/assignment.component';
 import {FormsModule} from "@angular/forms";
 import { CommonModuleModule } from '../../common-module/common-module.module';
+import { AsignSupervisorComponent } from './asign-supervisor/asign-supervisor.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { CommonModuleModule } from '../../common-module/common-module.module';
     SettingsComponent,
     RegistrationsComponent,
     AssignmentComponent,
+    AsignSupervisorComponent,
     
   ],
   imports: [

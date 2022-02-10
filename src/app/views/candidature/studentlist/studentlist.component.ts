@@ -50,6 +50,8 @@ export class StudentlistComponent implements OnInit {
   Sc_Date = new Date();
   ByWeeklyDate = new Date();
 
+  todaysDate=new Date();
+
   IsLatestHealthData: boolean = false;
   IsLatestSubData: boolean = false;
   IsLatestWeeklyDate = false;
@@ -82,7 +84,7 @@ export class StudentlistComponent implements OnInit {
     this.getStudents();
     this.getSiteMaster();
     this.getClinetMaster();
-    this.isSupervisor = this.sharedservice.getCurrentUser().Role == 2 ? true : false;
+    this.isSupervisor = true; //this.sharedservice.getCurrentUser().Role == 2 ? true : false;
 
   }
 
@@ -120,6 +122,7 @@ export class StudentlistComponent implements OnInit {
   getStudentData(studentID: number, isExpanded: boolean) {
 debugger;
     if (isExpanded) {
+      this.CurrentStudent = studentID;
       this.ngxLoader.start();
       this.candidatureservice.getHealthData(studentID).subscribe(
         (res) => {
@@ -127,7 +130,8 @@ debugger;
             if (res) {
               this.sites = res;
               console.log('HealthData-',this.sites);
-              if (this.datePipe.transform(this.Hc_Date, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Hc_Date, 'yyyy-MM-dd')) {
+              this.CurrentStudent = studentID;
+              if (this.datePipe.transform(this.todaysDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Hc_Date, 'yyyy-MM-dd')) {
                 this.IsLatestHealthData = true;
               }
               else {
@@ -149,7 +153,7 @@ debugger;
               this.client = res;
               console.log('SubmissionData-',this.client);
               this.CurrentStudent = studentID;
-              if (this.datePipe.transform(this.Sc_Date, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Sc_Date, 'yyyy-MM-dd')) {
+              if (this.datePipe.transform(this.todaysDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Sc_Date, 'yyyy-MM-dd')) {
                 this.IsLatestSubData = true;
               }
               else {
@@ -171,7 +175,7 @@ debugger;
               console.log('byweeklyData-',this.byweekly);
               this.CurrentStudent = studentID;
               this.weeklyDataLoaded = true;
-              if (this.datePipe.transform(this.ByWeeklyDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Date, 'yyyy-MM-dd')) {
+              if (this.datePipe.transform(this.todaysDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Date, 'yyyy-MM-dd')) {
                 this.IsLatestWeeklyDate = true;
               }
               else {
@@ -191,6 +195,13 @@ debugger;
     debugger;
     //console.log("sites",this.sites);
     //console.log("client",this.client);
+    let cnt = this.sites.filter(a=> a.Ispresent == null);
+    if(cnt.length > 0){
+      this.alert.error("Fill All Fields For Health Check-Up");
+      this.ngxLoader.stop();
+      return;
+    }
+
     this.ngxLoader.start();
 
     let objHealth = new Array<HealthCheckDaily>();
@@ -202,6 +213,7 @@ debugger;
     let objEntry = new MarketingDailyEntry();
 
     this.sites.forEach(function (item) {
+      
       objHealth.push(<HealthCheckDaily>{
         Hc_Date: _Hc_Date,
         StudentID: studId,
@@ -353,7 +365,7 @@ debugger;
 
   }
   deleteCareerSite(id) {
-    console.log(this.sitemaster);
+    //console.log(this.sitemaster);
     this.ngxLoader.start();
     this.candidatureservice.DeleteCareerData(id).subscribe(
       (res) => {
@@ -370,5 +382,106 @@ debugger;
     )
 
 
+  }
+  healthDateChanged(e){
+    
+    this.Hc_Date = e;
+    this.ngxLoader.start();
+    let date = this.datePipe.transform(this.Hc_Date, 'MM/dd/yyyy');
+    this.candidatureservice.getHealthDataByDate(date,this.CurrentStudent).subscribe(
+      (res) => {
+        if (res!= null && res.length>0) {          
+            this.sites = res;
+            console.log('HealthDataByDate-',this.sites);
+            if (this.datePipe.transform(this.todaysDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Hc_Date, 'yyyy-MM-dd')) {
+              this.IsLatestHealthData = true;
+            }
+            else {
+             // this.Hc_Date = res[0].Hc_Date;
+              
+              this.IsLatestHealthData = false;
+            }
+            this.LatestResume = res[0].LatestResume;   
+            this.ngxLoader.stop();       
+        }
+        else{
+          this.sites.forEach((v,i)=>{
+            v.Ispresent="";
+           
+          })
+          this.LatestResume = null;
+          this.ngxLoader.stop();
+        }
+      },
+      error => { console.log(error);this.ngxLoader.stop(); }
+    )
+  }
+  submissionDateChanged(e){
+    
+    this.Sc_Date =e;
+    this.ngxLoader.start();
+    let date = this.datePipe.transform(this.Sc_Date, 'MM/dd/yyyy');
+    this.candidatureservice.getSubmissionDataByDate(date,this.CurrentStudent).subscribe(
+      (res) => {
+        //this.ngxLoader.stop();
+          if (res!= null && res.length>0) {
+            this.client = res;
+            console.log('SubmissionDataByDate-',this.client);             
+            if (this.datePipe.transform(this.todaysDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Sc_Date, 'yyyy-MM-dd')) {
+              this.IsLatestSubData = true;
+            }
+            else {
+              //this.Sc_Date = res[0].Sc_Date;
+              this.IsLatestSubData = false;
+            }
+            this.ngxLoader.stop(); 
+            
+          }
+          else{
+            this.client.forEach((v,i)=>{
+              v.ClientDetails="";
+             
+            })
+            this.ngxLoader.stop();
+          }
+        
+      },
+      error => { console.log(error);this.ngxLoader.stop(); }
+    )
+  }
+  WeeklyDateChanged(e){
+    this.ByWeeklyDate=e;
+    this.ngxLoader.start();
+    let date = this.datePipe.transform(this.ByWeeklyDate, 'MM/dd/yyyy');
+    this.candidatureservice.getWeeklyDataByDate(date,this.CurrentStudent).subscribe(
+      (res) => {
+       
+          if (res!= null && res.length > 0) {
+            this.byweekly = res[0];
+            console.log('byweeklyDataByDate-',this.byweekly);
+            
+            this.weeklyDataLoaded = true;
+            if (this.datePipe.transform(this.todaysDate, 'yyyy-MM-dd') == this.datePipe.transform(res[0].Date, 'yyyy-MM-dd')) {
+              this.IsLatestWeeklyDate = true;
+            }
+            else {
+              
+              this.IsLatestWeeklyDate = false;
+            }
+            this.ngxLoader.stop();
+          }
+          else{
+            this.byweekly.EASY_APPLICATION="";
+            this.byweekly.COMPANY_SITE_APPLICATION="";
+            this.byweekly.EMAIL_REACH_OUT="";
+            this.byweekly.CALLS_REACH_OUT="";
+            this.byweekly.EMAIL_FLOW="";
+            this.byweekly.CALLS_RECEIVED="";
+            this.ngxLoader.stop();
+          }
+        
+      },
+      error => { console.log(error) }
+    )
   }
 }

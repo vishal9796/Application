@@ -14,13 +14,13 @@ export class DefaultLayoutComponent {
   userObj;
   user:string;
   constructor(private _SharedService: SharedService,private router: Router, private cookieService: CookieService ,){
-    console.log("navItems",this.navItems);
+    //console.log("navItems",this.navItems);
     this.userObj = this._SharedService.getCurrentUser();
     if(this.userObj.Role == 1 || this.userObj.Role == 2 || this.userObj.Role == 3 || this.userObj.Role == 4  ){
       this.navItems = navItems.filter(a=> a.name != 'Settings');
     }
 
-    console.log("currentUser",this._SharedService.getCurrentUser())
+    //console.log("currentUser",this._SharedService.getCurrentUser())
   }
   toggleMinimize(e) {
     this.sidebarMinimized = e;

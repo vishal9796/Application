@@ -61,7 +61,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let r of reportData;let i=index">
-           <td>{{r.Date}}</td>
+           <td>{{r.Date| date:'dd/MM/yyyy' }}</td>
            <td>{{r.ConsultantName}}</td>
            <td>{{r.StudentName}}</td>
            <td>{{r.EASY_APPLICATION}}</td>

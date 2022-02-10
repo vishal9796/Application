@@ -160,7 +160,7 @@
                     <tbody>
                       <tr>
                         <td><input class="form-control" [ngModel]="Hc_Date | date:'yyyy-MM-dd'"
-                            (ngModelChange)="Hc_Date = $event" id="date-input" type="date" name="date-input"
+                            (ngModelChange)="healthDateChanged($event)" id="date-input" type="date" name="date-input"
                             placeholder="date"></td>
                         <td *ngFor="let s of sites">
                           <select id="select1" [(ngModel)]="s.Ispresent" name="select1" class="form-control">
@@ -200,7 +200,7 @@
                     <tbody>
                       <tr>
                         <td><input class="form-control" [ngModel]="Sc_Date | date:'yyyy-MM-dd'"
-                            (ngModelChange)="Sc_Date = $event" id="date-input" type="date" name="date-input"
+                            (ngModelChange)="submissionDateChanged($event)" id="date-input" type="date" name="date-input"
                             placeholder="date"></td>
                         <td *ngFor="let c of client"><input class="form-control" [(ngModel)]="c.ClientDetails"
                             id="date-input" type="text" name="date-input" placeholder="Enter here"></td>
@@ -212,7 +212,10 @@
               </div>
             </div>
 
-            <div *ngIf="isSupervisor" class="col-lg-12">
+            
+
+            <!-- <div *ngIf="isSupervisor" class="col-lg-12"> -->
+              <div *ngIf="isSupervisor" class="col-lg-12">
               <div class="card">
                 <div class="card-header">
                   Weekly
@@ -237,7 +240,7 @@
                     <tbody>
                       <tr>
                         <td><input class="form-control"  [ngModel]="ByWeeklyDate | date:'yyyy-MM-dd'"
-                            (ngModelChange)="ByWeeklyDate = $event" id="date-input" type="date" name="date-input"
+                            (ngModelChange)="WeeklyDateChanged($event)" id="date-input" type="date" name="date-input"
                             placeholder="date"></td>                      
                         <td><input class="form-control" [(ngModel)]="byweekly.EASY_APPLICATION" id="date-input" type="text"
                             name="date-input" placeholder="Enter here"></td>
