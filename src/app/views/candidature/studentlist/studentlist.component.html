@@ -172,6 +172,11 @@
                             (ngModelChange)="LatestResume = $event" id="date-input" type="date" name="date-input"
                             placeholder="date"></td>
                       </tr>
+                      <tr>
+                        <tr *ngIf="healthDataNotFound">
+                         <td colspan="2"> <span style="color: red;font-weight: bold;">Data Not Found For Selected Date</span>
+                         </td>
+                        </tr>
 
                     </tbody>
                   </table>
@@ -205,6 +210,10 @@
                         <td *ngFor="let c of client"><input class="form-control" [(ngModel)]="c.ClientDetails"
                             id="date-input" type="text" name="date-input" placeholder="Enter here"></td>
                       </tr>
+                      <tr *ngIf="submissionDataNotFound">
+                        <td colspan="2"> <span style="color: red;font-weight: bold;">Data Not Found For Selected Date</span>
+                        </td>
+                       </tr>
                     </tbody>
                   </table>
 
@@ -256,6 +265,10 @@
                               name="date-input" placeholder="Enter here"></td>
 
                       </tr>
+                      <tr *ngIf="weeklyDataNotFound">
+                        <td colspan="2"> <span style="color: red;font-weight: bold;">Data Not Found For Selected Date</span>
+                        </td>
+                       </tr>
                     </tbody>
                   </table>
 

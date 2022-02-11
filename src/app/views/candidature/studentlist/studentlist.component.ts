@@ -69,6 +69,12 @@ export class StudentlistComponent implements OnInit {
 
   isSupervisor = false;
 
+
+  healthDataNotFound: boolean = false;
+  submissionDataNotFound: boolean = false;
+  weeklyDataNotFound: boolean = false;
+
+
   constructor(private router: Router, private sharedservice: SharedService,
     private candidatureservice: CandidatureService,
     private ngxLoader: NgxUiLoaderService,
@@ -403,6 +409,7 @@ debugger;
             }
             this.LatestResume = res[0].LatestResume;   
             this.ngxLoader.stop();       
+            this.healthDataNotFound=false;
         }
         else{
           this.sites.forEach((v,i)=>{
@@ -411,6 +418,7 @@ debugger;
           })
           this.LatestResume = null;
           this.ngxLoader.stop();
+          this.healthDataNotFound=true;
         }
       },
       error => { console.log(error);this.ngxLoader.stop(); }
@@ -435,6 +443,7 @@ debugger;
               this.IsLatestSubData = false;
             }
             this.ngxLoader.stop(); 
+            this.submissionDataNotFound = false;
             
           }
           else{
@@ -443,6 +452,7 @@ debugger;
              
             })
             this.ngxLoader.stop();
+            this.submissionDataNotFound=true;
           }
         
       },
@@ -469,8 +479,10 @@ debugger;
               this.IsLatestWeeklyDate = false;
             }
             this.ngxLoader.stop();
+            this.weeklyDataNotFound=false;
           }
           else{
+            
             this.byweekly.EASY_APPLICATION="";
             this.byweekly.COMPANY_SITE_APPLICATION="";
             this.byweekly.EMAIL_REACH_OUT="";
@@ -478,6 +490,7 @@ debugger;
             this.byweekly.EMAIL_FLOW="";
             this.byweekly.CALLS_RECEIVED="";
             this.ngxLoader.stop();
+            this.weeklyDataNotFound = true;
           }
         
       },
